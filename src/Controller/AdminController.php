@@ -7,6 +7,7 @@ use App\Form\AdminControllerType;
 use App\Entity\AdminLog;
 use App\Repository\AdminRepository;
 use App\Repository\AdminLogRepository;
+use App\Repository\InvitesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,13 +23,13 @@ class AdminController extends AbstractController
     
 
     #[Route('/', name: 'app_admin_index', methods: ['GET'])]
-    public function index(AdminRepository $adminControllerRepository): Response
+    public function index(AdminRepository $adminControllerRepository, InvitesRepository $invitesRepository): Response
     {
         
         return $this->render('admin/index.html.twig', [
             'admin_controllers' => $adminControllerRepository->findAll(),
-            
-            
+            'invites' => $invitesRepository->findAll(),
+
         ]);
     }
 

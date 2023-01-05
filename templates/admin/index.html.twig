@@ -188,6 +188,61 @@
 
 
 
+        <div class="row mt-4">
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table align-items-center mb-0">
+                <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">id</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
+
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <table class="table center">
+
+                  <tbody>
+                  {% for Invites in invites %}
+                    <tr>
+                      <td>{{ Invites.InviteCode }}</td>
+
+
+                      <td>
+
+                      </td>
+
+
+                    </tr>
+                  {% else %}
+                    <tr>
+                      <td colspan="6">no records found</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+
    
 
         
