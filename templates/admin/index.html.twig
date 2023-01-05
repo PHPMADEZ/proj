@@ -112,14 +112,18 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
 
-      <div class="row" >
-        <div class="row-cols-sm-4" >
-        <a class="btn btn-primary" href="{{ path('app_admin_log_index') }}">User Logs</a>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4">
+            <a class="btn btn-primary " href="{{ path('app_admin_log_index') }}">User Logs</a>
+          </div>
+          <div class="col-sm">
+            <a class="btn btn-primary" href="{{ path('app_admin_log_index') }}">User Logs</a>
+          </div>
+          <div class="col-sm">
+            <a class="btn btn-primary" href="{{ path('app_invites_index') }}">Invites</a>
+          </div>
         </div>
-
-
-
-
       </div>
 
 

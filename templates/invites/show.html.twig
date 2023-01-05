@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invites{% endblock %}
+
+{% block body %}
+    <h1>Invites</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ invite.id }}</td>
+            </tr>
+            <tr>
+                <th>Invitecode</th>
+                <td>{{ invite.invitecode }}</td>
+            </tr>
+            <tr>
+                <th>Doc</th>
+                <td>{{ invite.doc ? invite.doc|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_invites_index') }}">back to list</a>
+
+    <a href="{{ path('app_invites_edit', {'id': invite.id}) }}">edit</a>
+
+    {{ include('invites/_delete_form.html.twig') }}
+{% endblock %}
