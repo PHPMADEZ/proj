@@ -16,7 +16,7 @@ class DeleteUserSubscriber implements EventSubscriberInterface
 {
     public function __construct(private readonly TokenStorageInterface $tokenStorage, private  AdminLogRepository $adminLogRepository)
     {
-        $this->adminLogRepository = $adminLogRepository;
+
     }
     public function getSubscribedEvents() : array
     {

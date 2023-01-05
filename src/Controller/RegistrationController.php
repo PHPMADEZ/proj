@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
  
     public function __construct(private readonly EventDispatcherInterface $eventDispatcher, private EmailVerifier $emailVerifier)
     {
-        $this->emailVerifier = $emailVerifier;
+
 
     }
 

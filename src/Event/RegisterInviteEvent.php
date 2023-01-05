@@ -3,15 +3,13 @@
 namespace App\Event;
 
 use App\Entity\Admin;
-use App\Entity\Invites;
+use App\Entity\Invite;
 use Symfony\Contracts\EventDispatcher\Event;
 class RegisterInviteEvent extends Event
 {
 
-    public function __construct(private Admin $admin, private Invites $invites)
+    public function __construct(private Admin $admin, private Invite $invite)
     {
-        $this->admin = $admin;
-        $this->invites = $invites;
     }
     public function getUser()
     {

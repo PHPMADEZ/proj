@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Invites;
+use App\Entity\Invite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +19,7 @@ class InvitesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Invites::class,
+            'data_class' => Invite::class,
         ]);
     }
 }

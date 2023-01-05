@@ -14,7 +14,7 @@ class RegisterEventSubscribers implements EventSubscriberInterface
 {
     public function __construct(private MailerInterface $mailer)
     {
-        $this->mailer = $mailer;
+
     }
 
     public function getSubscribedEvents() : array

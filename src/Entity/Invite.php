@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InvitesRepository::class)]
-class Invites
+class Invite
 {
 
     #[ORM\Id]
@@ -67,7 +67,7 @@ class Invites
     }
 
 
-    public function setIsUsed(?int $isUsed): Invites
+    public function setIsUsed(?int $isUsed): Invite
     {
         $this->isUsed = $isUsed;
         return $this;
@@ -76,6 +76,13 @@ class Invites
     public function getUser(): ?Admin
     {
         return $this->user;
+    }
+
+    public function setUser(?Admin $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -88,9 +95,9 @@ class Invites
 
     /**
      * @param bool|null $confirmed
-     * @return Invites
+     * @return Invite
      */
-    public function setConfirmed(?bool $confirmed): Invites
+    public function setConfirmed(?bool $confirmed): Invite
     {
         $this->confirmed = $confirmed;
         return $this;

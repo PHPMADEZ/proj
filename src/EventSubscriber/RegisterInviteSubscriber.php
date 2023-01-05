@@ -6,7 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Repository\InvitesRepository;
-use App\Entity\Invites;
+use App\Entity\Invite;
 use App\Entity\Admin;
 
 class RegisterInviteSubscriber implements EventSubscriberInterface
@@ -26,7 +26,7 @@ class RegisterInviteSubscriber implements EventSubscriberInterface
     {
         $entity = $args->getObject();
         if ($entity instanceof Admin) {
-            $invite = new Invites();
+            $invite = new Invite();
 
             $invite->setInvitecode($this->invitesRepository->generateInviteCode());
             $invite->setUser($entity);
