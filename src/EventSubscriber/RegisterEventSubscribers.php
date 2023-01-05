@@ -33,7 +33,7 @@ class RegisterEventSubscribers implements EventSubscriberInterface
                 ->from(new Address('admin@localhost', 'Admin'))
                 ->to($entity->getEmail())
                 ->subject('Welcome to the site!')
-                ->htmlTemplate('emails/registration.html.twig')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
                 ->context([
                     'user' => $entity,
                 ]);
