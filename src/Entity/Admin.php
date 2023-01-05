@@ -30,6 +30,10 @@ class Admin
     #[ORM\OneToMany(targetEntity: AdminLog::class, mappedBy: 'user')]
     private $logs;
 
+    #[ORM\OneToMany(targetEntity: Invites::class, mappedBy: 'user')]
+    private $user;
+
+
 
 
     public function getId(): ?int

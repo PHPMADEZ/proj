@@ -9,10 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[Route('/invites')]
 class InvitesController extends AbstractController
 {
+     public function __construct(private InvitesRepository $invitesRepository, private EntityManagerInterface $entityManager)
+    {
+        $this->invitesRepository = $invitesRepository;
+        $this->entityManager = $entityManager;
+    }
     #[Route('/', name: 'app_invites_index', methods: ['GET'])]
     public function index(InvitesRepository $invitesRepository): Response
     {
@@ -24,12 +30,25 @@ class InvitesController extends AbstractController
     #[Route('/new', name: 'app_invites_new', methods: ['GET', 'POST'])]
     public function new(Request $request, InvitesRepository $invitesRepository): Response
     {
+
+
         $invite = new Invites();
         $form = $this->createForm(InvitesType::class, $invite);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $invitesRepository->save($invite, true);
+
+
+            $invite->setInvitecode($invitesRepository->generateInviteCode());
+            $invite->setIsUsed(0);
+            $invite->setDoc(new \DateTime());
+            $invite->set
+
+
+            $this->entityManager->persist($invite);
+            $this->entityManager->flush();
+
+
 
             return $this->redirectToRoute('app_invites_index', [], Response::HTTP_SEE_OTHER);
         }

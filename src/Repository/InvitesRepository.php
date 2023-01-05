@@ -39,6 +39,18 @@ class InvitesRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function generateInviteCode(): string
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 10; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
 //    /**
 //     * @return Invites[] Returns an array of Invites objects
 //     */
