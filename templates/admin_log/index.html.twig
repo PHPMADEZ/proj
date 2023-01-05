@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdminLog index{% endblock %}
+
+{% block body %}
+    <h1>AdminLog index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Naam</th>
+                <th>Description</th>
+                <th>User</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for admin_log in admin_logs %}
+            <tr>
+                <td>{{ admin_log.id }}</td>
+                <td>{{ admin_log.naam }}</td>
+                <td>{{ admin_log.description }}</td>
+                <td>{{ admin_log.user.name }}</td>
+                <td>{{ admin_log.date ? admin_log.date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_log_show', {'id': admin_log.id}) }}">show</a>
+                    <a href="{{ path('app_admin_log_edit', {'id': admin_log.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_log_new') }}">Create new</a>
+{% endblock %}

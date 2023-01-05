@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AdminLog{% endblock %}
+
+{% block body %}
+    <h1>Edit AdminLog</h1>
+
+    {{ include('admin_log/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_log_index') }}">back to list</a>
+
+    {{ include('admin_log/_delete_form.html.twig') }}
+{% endblock %}
