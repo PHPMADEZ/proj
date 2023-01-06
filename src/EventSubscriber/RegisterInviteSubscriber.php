@@ -2,19 +2,20 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\AdminLog;
+use App\Entity\Invite;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
-use App\Repository\InvitesRepository;
-use App\Entity\Invite;
-use App\Entity\Admin;
 
-class RegisterInviteSubscriber implements EventSubscriberInterface
+
+class RegisterInviteSubscriber  implements EventSubscriberInterface
 {
-    public function __construct(private InvitesRepository $invitesRepository)
+
+    public function __construct(private Invite $invite, private AdminLog $adminLog)
     {
-        $this->invitesRepository = $invitesRepository;
     }
+
+
     public function getSubscribedEvents() : array
     {
         return [
@@ -22,20 +23,16 @@ class RegisterInviteSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist()
     {
-        $entity = $args->getObject();
-        if ($entity instanceof Admin) {
-            $invite = new Invite();
-
-            $invite->setInvitecode($this->invitesRepository->generateInviteCode());
-            $invite->setUser($entity);
-            $invite->setIsUsed(1);
-            $invite->setDoc(new \DateTime());
-            $this->invitesRepository->save($invite, true);
-
-        }
+        $this->adminLog->setNaam($this->invite->getNaam());
+        $this->adminLog->setDescription('Created');
+        $this->adminLog->setUser($this->invite->getUser()->getUserIdentifier());
+        $this->adminLog->setDate(new \DateTime());
+        $this->adminLog->save($this->adminLog, true);
     }
+
+
 
 
 }
