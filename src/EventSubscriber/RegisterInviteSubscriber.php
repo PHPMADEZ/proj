@@ -32,7 +32,6 @@ class RegisterInviteSubscriber implements EventSubscriberInterface
             $invite->setUser($entity);
             $invite->setIsUsed(1);
             $invite->setDoc(new \DateTime());
-
             $this->invitesRepository->save($invite, true);
 
         }

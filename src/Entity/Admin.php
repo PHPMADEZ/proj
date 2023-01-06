@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdminRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,8 +32,18 @@ class Admin
     #[ORM\OneToMany(targetEntity: AdminLog::class, mappedBy: 'user')]
     private $logs;
 
-    #[ORM\OneToMany(targetEntity: Invite::class, mappedBy: 'user')]
-    private $user;
+    #[ORM\OneToMany(targetEntity: Admin::class, mappedBy: 'admins')]
+    private $admins;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Invite::class)]
+    private Collection $invites;
+
+    public function __construct()
+    {
+        $this->invites = new ArrayCollection();
+    }
+
+
 
 
 
@@ -106,6 +118,58 @@ class Admin
         $this->logs = $logs;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return Admin
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Invite>
+     */
+    public function getInvites(): Collection
+    {
+        return $this->invites;
+    }
+
+    public function addInvite(Invite $invite): self
+    {
+        if (!$this->invites->contains($invite)) {
+            $this->invites->add($invite);
+            $invite->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvite(Invite $invite): self
+    {
+        if ($this->invites->removeElement($invite)) {
+            // set the owning side to null (unless already changed)
+            if ($invite->getUser() === $this) {
+                $invite->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
 
 
     

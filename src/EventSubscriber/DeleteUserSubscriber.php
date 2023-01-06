@@ -2,10 +2,8 @@
 
 namespace App\EventSubscriber;
 
-use App\Controller\AdminLogController;
 use App\Entity\Admin;
 use App\Entity\AdminLog;
-use App\Controller\AdminController;
 use App\Repository\AdminLogRepository;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;

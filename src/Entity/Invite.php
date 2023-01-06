@@ -18,8 +18,7 @@ class Invite
     #[ORM\Column(length: 255)]
     private ?string $invitecode = null;
 
-    #[ORM\ManyToOne(targetEntity: Admin::class, inversedBy: 'user')]
-    private ?Admin $user = null;
+    private ?string $user = null;
 
     #[ORM\Column]
     private ?bool $confirmed = false;
@@ -28,6 +27,9 @@ class Invite
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $doc = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $userid = null;
 
 
 
@@ -73,17 +75,25 @@ class Invite
         return $this;
     }
 
-    public function getUser(): ?Admin
+    /**
+     * @return string|null
+     */
+    public function getUser()
     {
         return $this->user;
     }
 
-    public function setUser(?Admin $user): self
+    /**
+     * @param string|null $user
+     * @return Invite
+     */
+    public function setUser(?string $user): Invite
     {
         $this->user = $user;
-
         return $this;
     }
+
+
 
     /**
      * @return bool|null
@@ -100,6 +110,28 @@ class Invite
     public function setConfirmed(?bool $confirmed): Invite
     {
         $this->confirmed = $confirmed;
+        return $this;
+    }
+
+    //insert new invite \
+    public function insertInvite($invitecode, $userid, $isUsed, $doc, $confirmed)
+    {
+        $this->setInvitecode($invitecode);
+        $this->setUserid($userid);
+        $this->setIsUsed($isUsed);
+        $this->setDoc($doc);
+        $this->setConfirmed($confirmed);
+    }
+
+    public function getUserid(): ?string
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(string $userid): self
+    {
+        $this->userid = $userid;
+
         return $this;
     }
 

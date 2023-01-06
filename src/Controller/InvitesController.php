@@ -29,7 +29,7 @@ class InvitesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_invites_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, InvitesRepository $invitesRepository): Response
+    public function new(Request $request): Response
     {
 
 
@@ -39,12 +39,7 @@ class InvitesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-            $invite->setInvitecode($this->generateInviteCode());
-            $invite->setIsUsed(0);
-            $invite->setDoc(new \DateTime());
-            $invite->setUser($this->tokenStorage->getToken()->getUserIdentifier());
-
+            $invite->insertInvite($this->generateInviteCode(), $this->tokenStorage->getToken()->getUser()->getUserIdentifier(),0, new \DateTime(),1);
             $this->entityManager->persist($invite);
             $this->entityManager->flush();
 
