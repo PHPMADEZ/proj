@@ -24,6 +24,8 @@ services:
             - name: 'doctrine.event_subscriber'
               connection: 'default'
               priority: 500
+
+
         
 
     # add more service definitions when explicit configuration is needed
