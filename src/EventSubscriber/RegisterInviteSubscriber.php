@@ -2,34 +2,39 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Admin;
 use App\Entity\AdminLog;
 use App\Entity\Invite;
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\Events;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-
-class RegisterInviteSubscriber  implements EventSubscriberInterface
+class RegisterInviteSubscriber implements EventSubscriberInterface
 {
 
-    public function __construct(private Invite $invite, private AdminLog $adminLog)
+    public function __construct()
     {
     }
 
 
-    public function getSubscribedEvents() : array
+    public static function getSubscribedEvents() : array
     {
         return [
             Events::postPersist,
         ];
     }
 
-    public function postPersist()
+    public function postPersist(LifecycleEventArgs $args)
     {
-        $this->adminLog->setNaam($this->invite->getNaam());
-        $this->adminLog->setDescription('Created');
-        $this->adminLog->setUser($this->invite->getUser()->getUserIdentifier());
-        $this->adminLog->setDate(new \DateTime());
-        $this->adminLog->save($this->adminLog, true);
+
+        $entity = $args->getObject();
+
+        if ($entity instanceof AdminLog) {
+            $entity->setNaam('test');
+            $entity->setDescription('test');
+            $entity->setUser('test');
+            $entity->setDate(new \DateTime());
+        }
     }
 
 

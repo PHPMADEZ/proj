@@ -67,6 +67,7 @@ class InvitesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $invitesRepository->save($invite, true);
 
             return $this->redirectToRoute('app_invites_index', [], Response::HTTP_SEE_OTHER);
