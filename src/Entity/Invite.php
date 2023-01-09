@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\InvitesRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InvitesRepository::class)]
@@ -16,22 +15,18 @@ class Invite
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $invitecode = null;
+    private string $invitecode = '';
+    #[ORM\Column(type: 'boolean')]
+    private bool $used = false;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $doc;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $admin = null;
 
-    private ?string $user = null;
-
-    #[ORM\Column]
-    private ?bool $confirmed = false;
-    #[ORM\Column(length: 1)]
-    private ?int $isUsed = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $doc = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $userid = null;
-
-
+    public function __construct()
+    {
+        $this->doc = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -50,88 +45,61 @@ class Invite
         return $this;
     }
 
-    public function getDoc(): ?\DateTimeInterface
-    {
-        return $this->doc;
-    }
-
-    public function setDoc(\DateTimeInterface $doc): self
-    {
-        $this->doc = $doc;
-
-        return $this;
-    }
-
-
-    public function getIsUsed(): ?int
-    {
-        return $this->isUsed;
-    }
-
-
-    public function setIsUsed(?int $isUsed): Invite
-    {
-        $this->isUsed = $isUsed;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param string|null $user
-     * @return Invite
-     */
-    public function setUser(?string $user): Invite
-    {
-        $this->user = $user;
-        return $this;
-    }
-
-
-
-    /**
-     * @return bool|null
-     */
-    public function getConfirmed(): ?bool
+    public function getConfirmed(): bool
     {
         return $this->confirmed;
     }
 
-    /**
-     * @param bool|null $confirmed
-     * @return Invite
-     */
-    public function setConfirmed(?bool $confirmed): Invite
+    public function setConfirmed(bool $confirmed): Invite
     {
         $this->confirmed = $confirmed;
         return $this;
     }
 
-    //insert new invite \
-    public function insertInvite($invitecode, $userid, $isUsed, $doc, $confirmed)
+    public function getAdmin(): ?User
     {
-        $this->setInvitecode($invitecode);
-        $this->setUserid($userid);
-        $this->setIsUsed($isUsed);
-        $this->setDoc($doc);
-        $this->setConfirmed($confirmed);
+        return $this->admin;
     }
 
-    public function getUserid(): ?string
+    public function setAdmin(?User $admin): Invite
     {
-        return $this->userid;
+        $this->admin = $admin;
+        return $this;
     }
 
-    public function setUserid(string $userid): self
+    /**
+     * @return bool
+     */
+    public function isUsed(): bool
     {
-        $this->userid = $userid;
+        return $this->used;
+    }
 
+    /**
+     * @param bool $used
+     * @return Invite
+     */
+    public function setUsed(bool $used): Invite
+    {
+        $this->used = $used;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getDoc(): \DateTimeImmutable
+    {
+        return $this->doc;
+    }
+
+    /**
+     * @param \DateTimeImmutable $doc
+     * @return Invite
+     */
+    public function setDoc(\DateTimeImmutable $doc): Invite
+    {
+        $this->doc = $doc;
         return $this;
     }
 

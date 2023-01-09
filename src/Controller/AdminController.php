@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Admin;
-use App\Form\AdminControllerType;
+use App\Form\AdminType;
 use App\Entity\AdminLog;
 use App\Repository\AdminRepository;
 use App\Repository\AdminLogRepository;
@@ -18,9 +18,11 @@ use Doctrine\ORM\EntityManagerInterface;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-    
+    public function __construct(
+        private readonly AdminRepository $adminRepository
+    ){
+    }
 
-    
 
     #[Route('/', name: 'app_admin_index', methods: ['GET'])]
     public function index(AdminRepository $adminControllerRepository, InvitesRepository $invitesRepository): Response
@@ -36,18 +38,18 @@ class AdminController extends AbstractController
     #[Route('/new', name: 'app_admin_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AdminRepository $adminControllerRepository): Response
     {
-        $adminController = new Admin();
-        $form = $this->createForm(AdminControllerType::class, $adminController);
+        $admin = new Admin();
+        $form = $this->createForm(AdminType::class, $admin);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $adminControllerRepository->save($adminController, true);
+            $adminControllerRepository->save($admin, true);
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/new.html.twig', [
-            'admin_controller' => $adminController,
+            'admin_controller' => $admin,
             'form' => $form,
         ]);
     }
@@ -64,7 +66,7 @@ class AdminController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Admin $adminController, AdminRepository $adminControllerRepository  ): Response
     {
-        $form = $this->createForm(AdminControllerType::class, $adminController);
+        $form = $this->createForm(AdminType::class, $adminController);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

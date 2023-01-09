@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Invite;
 use App\Form\InvitesType;
 use App\Repository\InvitesRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,40 +16,30 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 #[Route('/invites')]
 class InvitesController extends AbstractController
 {
-     public function __construct(private InvitesRepository $invitesRepository, private EntityManagerInterface $entityManager, private TokenStorageInterface $tokenStorage)
+     public function __construct(
+         private readonly InvitesRepository $invitesRepository,
+         private EntityManagerInterface $entityManager,
+         private TokenStorageInterface $tokenStorage)
     {
 
 
     }
     #[Route('/', name: 'app_invites_index', methods: ['GET'])]
-    public function index(InvitesRepository $invitesRepository): Response
+    public function index(): Response
     {
         return $this->render('invites/index.html.twig', [
-            'invites' => $invitesRepository->findAll(),
+            'invites' => $this->invitesRepository->findAll(),
         ]);
     }
-
-    #[Route('/new', name: 'app_invites_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, InvitesRepository $invitesRepository): Response
+    #[Route('/new', name: 'app_invites_new')]
+    public function new(): Response
     {
-
-
+        $this->denyAccessUnlessGranted("ROLE_ADMIN", null, "MAG NIET");
         $invite = new Invite();
-        $form = $this->createForm(InvitesType::class, $invite);
-        $form->handleRequest($request);
+        $invite->setInvitecode($this->generateInviteCode());
+        $this->invitesRepository->save($invite, true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $invite->insertInvite($this->generateInviteCode(), $this->tokenStorage->getToken()->getUser()->getUserIdentifier(),0, new \DateTime(),1);
-            $invitesRepository->save($invite, true);
-
-            return $this->redirectToRoute('app_invites_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('invites/new.html.twig', [
-            'invite' => $invite,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_invites_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_invites_show', methods: ['GET'])]

@@ -58,7 +58,7 @@ class AdminLogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $adminLogRepository->save($adminLog, true);
 
-            return $this->redirectToRoute('app_admin_log_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_log_index');
         }
 
         return $this->renderForm('admin_log/edit.html.twig', [

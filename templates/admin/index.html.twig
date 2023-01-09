@@ -120,9 +120,12 @@
           <div class="col-sm">
             <a class="btn btn-primary" href="{{ path('app_admin_log_index') }}">User Logs</a>
           </div>
+          {% if is_granted("ROLE_ADMIN") %}
           <div class="col-sm">
             <a class="btn btn-primary" href="{{ path('app_invites_index') }}">Invites</a>
           </div>
+          {% endif %}
+
         </div>
       </div>
 

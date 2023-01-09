@@ -5,8 +5,7 @@ security:
     access_control:
         # matches /admin/users/*
         - { path: '^/admin/users', roles: ROLE_SUPER_ADMIN }
-
-        - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: '^/admin', roles: ROLE_USER }
         # matches /admin/* except for anything matching the above rule
 
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords

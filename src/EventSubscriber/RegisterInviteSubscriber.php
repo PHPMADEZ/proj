@@ -4,8 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Repository\AdminLogRepository;
 use App\Repository\InvitesRepository;
-
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
@@ -18,9 +17,7 @@ class RegisterInviteSubscriber implements EventSubscriberInterface
 
     }
 
-
-
-    public static function getSubscribedEvents() : array
+    public function getSubscribedEvents() : array
     {
         return [
             Events::postPersist,
